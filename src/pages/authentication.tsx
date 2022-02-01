@@ -1,10 +1,17 @@
 import { useState } from "react";
 import AuthInput from "../components/auth/AuthInput";
+import { AttentionIcon } from "../components/icons";
 
 export default function Authentication() {
+    const [erro, setErro] = useState(null);
     const [modo, setModo] = useState<'login' | 'cadastro'>('login');
     const [email, setEmail] = useState('');
     const [senha, setSenha] = useState('');
+
+    function displayErro(msg, timeInSeconds = 5) {
+        setErro(msg)
+        setTimeout(() => setErro(null), timeInSeconds * 1000)
+    };
 
     function submit() {
         if (modo === 'login') {
@@ -27,6 +34,18 @@ export default function Authentication() {
                 <h1 className={` text-3xl font-bold mb-5`}>
                     {modo === 'login' ? 'Entre com a sua conta' : 'Cadastre-se na Plataforma'}
                 </h1>
+
+                {erro ? (
+                    <div className={`
+                    flex items-center
+                    bg-red-400 text-white py-3 px-5 my-2 
+                    border border-red-700 rounded-lg
+                `}>
+                        {AttentionIcon()}
+                        <span className="ml-3">{erro}</span>
+                    </div>
+                ) : false}
+
                 <AuthInput
                     label="Email"
                     type="email"
@@ -77,6 +96,5 @@ export default function Authentication() {
                 )}
             </div>
         </div>
-
     )
-};
+};               // npm i firebase@8.8.0 
