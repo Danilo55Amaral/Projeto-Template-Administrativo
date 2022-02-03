@@ -5,7 +5,7 @@ import useAuth from "../data/hook/useAuth";
 
 export default function Authentication() {
 
-    const { user, loginGoogle } = useAuth();
+    const { register, login, loginGoogle } = useAuth();
 
     const [erro, setErro] = useState(null);
     const [modo, setModo] = useState<'login' | 'cadastro'>('login');
@@ -17,11 +17,15 @@ export default function Authentication() {
         setTimeout(() => setErro(null), timeInSeconds * 1000)
     };
 
-    function submit() {
-        if (modo === 'login') {
-            console.log('login')
-        } else {
-            console.log('cadastrar')
+    async function submit() {
+        try {
+            if (modo === 'login') {
+                await login(email, senha)
+            } else {
+                await register(email, senha)
+            }
+        } catch (e) {
+            displayErro(e?.message ?? 'Ocorreu um Erro!')
         }
     };
 
